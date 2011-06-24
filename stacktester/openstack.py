@@ -22,7 +22,8 @@ class Manager(object):
 
     def _load_nova_admin(self, config):
         return stacktester.nova.AdminClient(config.nova.host,
-                                            config.nova.ssh_username)
+                                            config.nova.ssh_username,
+                                            config.nova.ssh_port)
 
     def _load_glance(self, config):
         return glance.client.Client(config.glance.host, config.glance.port)
