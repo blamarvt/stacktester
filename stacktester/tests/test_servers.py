@@ -117,6 +117,13 @@ class ServersTest(unittest.TestCase):
         client = ssh.Client(ip, 'root', admin_pass, self.ssh_timeout)
         self.assertTrue(client.test_connection_auth())
 
+        # Make sure basic details are returned correctly
+        response, body = self.os.nova.request('GET', '/servers/details')
+        server_details = json.loads(body)
+        for server_dict in server_details:
+            self.assertTrue("flavor" in server_dict)
+            self.assertTrue("image" in server_dict)
+
         self.os.nova.delete_server(server['id'])
 
     def test_build_server_with_file(self):
